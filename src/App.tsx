@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
+import ErrorBoundary from "./ErrorBoundary";
 import Attendance from './pages/Attendance';
 import Insights from './pages/Insights';
 import BottomNav from './components/BottomNav';
@@ -43,11 +44,13 @@ export default function App() {
         <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
       </header>
       <main>
-        <Routes>
+      <ErrorBoundary>
+          <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/insights" element={<Insights />} />
         </Routes>
+     </ErrorBoundary>
       </main>
       <BottomNav />
     </div>
