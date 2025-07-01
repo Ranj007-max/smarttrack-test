@@ -1,0 +1,51 @@
+name: Deploy to GitHub Pages
+
+# Run this workflow every time a change is pushed to the main branch
+on:
+  push:
+    branches:
+      - main
+
+# Allows the workflow to write to your repository's pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checks out your repository's code so the workflow can access it
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Sets up Node.js, which is needed to build the app
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Installs all the project dependencies (React, etc.)
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Runs the build command from package.json to create the /dist folder
+      - name: Build
+        run: npm run build
+
+      # 5. Configures GitHub Pages for deployment
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 6. Uploads the built /dist folder as an artifact
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      # 7. Deploys the artifact to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
