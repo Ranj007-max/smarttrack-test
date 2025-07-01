@@ -27,12 +27,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-        - name: Clear npm cache
-              run: npm cache clean --force
+      - name: Clear npm cache
+        run: npm cache clean --force
 
-- name: Remove npm lock file and node_modules
-  run: rm -rf package-lock.json node_modules
-    
+      - name: Remove npm lock file and node_modules
+        run: rm -rf package-lock.json node_modules
       # 3. Installs all the project dependencies (React, etc.)
       - name: Install dependencies
         run: npm install
